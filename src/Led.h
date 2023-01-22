@@ -19,7 +19,8 @@ class LedRGB
 {
     public:
         LedRGB(uint8_t rPin, uint8_t gPin, uint8_t bPin, bool iAnode = false);
-        void on(int iR = r, int iG = g, int iB = b);
+        void on(int iR, int iG, int iB);
+        void on();
         void off();
         void toggle();
         void blink(int delayTime, int times);
