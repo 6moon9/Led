@@ -24,12 +24,21 @@ void LedRGB::apply()
 /**
  * Turn on the led
  */
-void LedRGB::on(int iR = r, int iG = g, int iB = b)
+void LedRGB::on(int iR, int iG, int iB)
 {
     state = true;
     r = iR;
     g = iG;
     b = iB;
+    apply();
+}
+
+/**
+ * Turn on the led
+ */
+void LedRGB::on()
+{
+    state = true;
     apply();
 }
 
