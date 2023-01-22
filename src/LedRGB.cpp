@@ -2,16 +2,23 @@
 
 #include "Led.h"
 
-LedRGB::LedRGB(uint8_t rPin, uint8_t gPin, uint8_t bPin, bool iCommon = false)
+LedRGB::LedRGB(uint8_t rPin, uint8_t gPin, uint8_t bPin, bool iAnode = false)
 {
     pins[0] = rPin;
     pins[1] = gPin;
     pins[2] = bPin;
-    common = iCommon;
+    anode = iAnode;
     pinMode(pins[0], OUTPUT);
     pinMode(pins[1], OUTPUT);
     pinMode(pins[2], OUTPUT);
     off();
+}
+
+void LedRGB::apply()
+{
+    analogWrite(pins[0], state ? (!anode ? r : 255 - r) : 0);
+    analogWrite(pins[1], state ? (!anode ? g : 255 - g) : 0);
+    analogWrite(pins[1], state ? (!anode ? b : 255 - b) : 0);
 }
 
 /**
@@ -23,9 +30,7 @@ void LedRGB::on(int iR = r, int iG = g, int iB = b)
     r = iR;
     g = iG;
     b = iB;
-    analogWrite(pins[0], state ? r : 0);
-    analogWrite(pins[1], state ? g : 0);
-    analogWrite(pins[1], state ? b : 0);
+    apply();
 }
 
 /**
@@ -34,9 +39,7 @@ void LedRGB::on(int iR = r, int iG = g, int iB = b)
 void LedRGB::off()
 {
     state = false;
-    analogWrite(pins[0], state ? 255 : 0);
-    analogWrite(pins[1], state ? 255 : 0);
-    analogWrite(pins[1], state ? 255 : 0);
+    apply();
 }
 
 /**
@@ -45,9 +48,7 @@ void LedRGB::off()
 void LedRGB::toggle()
 {
     state = !state;
-    analogWrite(pins[0], state ? r : 0);
-    analogWrite(pins[1], state ? g : 0);
-    analogWrite(pins[1], state ? b : 0);
+    apply();
 }
 
 /**

@@ -10,13 +10,18 @@ Led::Led(uint8_t iPin, bool iReversed = false)
     off();
 }
 
+void Led::apply()
+{
+    digitalWrite(pin, reversed ? !state : state);
+}
+
 /**
  * Turn on the led
  */
 void Led::on()
 {
     state = HIGH;
-    digitalWrite(pin, reversed ? !state : state);
+    apply();
 }
 
 /**
@@ -25,7 +30,7 @@ void Led::on()
 void Led::off()
 {
     state = LOW;
-    digitalWrite(pin, reversed ? !state : state);
+    apply();
 }
 
 /**
@@ -34,7 +39,7 @@ void Led::off()
 void Led::toggle()
 {
     state = !state;
-    digitalWrite(pin, reversed ? !state : state);
+    apply();
 }
 
 /**
