@@ -40,9 +40,13 @@ void Led::toggle()
 /**
  * Make the led blinking
  * @param delay: the delay to wait between each tipping of the led
+ * @param times: the number of times the led toggle
  */
-void Led::blink(int delayTime)
+void Led::blink(int delayTime, int times)
 {
-    toggle();
-    delay(delayTime);
+    for (int i = 0; i < times; i++)
+    {
+        toggle();
+        delay(delayTime);
+    }
 }
