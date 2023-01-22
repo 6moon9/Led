@@ -6,7 +6,7 @@ Led::Led(uint8_t iPin, bool iReversed = false)
 {
     pin = iPin;
     reversed = iReversed;
-    pinMode(pin, INPUT);
+    pinMode(pin, OUTPUT);
     off();
 }
 
