@@ -2,7 +2,7 @@
 
 #include "Led.h"
 
-LedRGB::LedRGB(uint8_t rPin, uint8_t gPin, uint8_t bPin, bool iAnode = false)
+LedRGBAnalog::LedRGBAnalog(uint8_t rPin, uint8_t gPin, uint8_t bPin, bool iAnode = false)
 {
     pins[0] = rPin;
     pins[1] = gPin;
@@ -14,28 +14,29 @@ LedRGB::LedRGB(uint8_t rPin, uint8_t gPin, uint8_t bPin, bool iAnode = false)
     off();
 }
 
-void LedRGB::apply()
+void LedRGBAnalog::apply()
 {
-    digitalWrite(pins[0], state ? (!anode ? r : !r) : 0);
-    digitalWrite(pins[1], state ? (!anode ? g : !g) : 0);
-    digitalWrite(pins[1], state ? (!anode ? b : !b) : 0);
+    analogWrite(pins[0], state ? (!anode ? r : 255 - r) : 0);
+    analogWrite(pins[1], state ? (!anode ? g : 255 - g) : 0);
+    analogWrite(pins[1], state ? (!anode ? b : 255 - b) : 0);
 }
 
 /**
  * Turn on the led
  */
-void LedRGB::on(bool iR, bool iG, bool iB)
+void LedRGBAnalog::on(int iR, int iG, int iB)
 {
+    state = true;
     r = iR;
     g = iG;
     b = iB;
-    on();
+    apply();
 }
 
 /**
  * Turn on the led
  */
-void LedRGB::on()
+void LedRGBAnalog::on()
 {
     state = true;
     apply();
@@ -44,7 +45,7 @@ void LedRGB::on()
 /**
  * Turn off the led
  */
-void LedRGB::off()
+void LedRGBAnalog::off()
 {
     state = false;
     apply();
@@ -53,7 +54,7 @@ void LedRGB::off()
 /**
  * Toggle the led state
  */
-void LedRGB::toggle()
+void LedRGBAnalog::toggle()
 {
     state = !state;
     apply();
@@ -64,7 +65,7 @@ void LedRGB::toggle()
  * @param delay: the delay to wait between each tipping of the led
  * @param times: the number of times the led toggle
  */
-void LedRGB::blink(int delayTime, int times)
+void LedRGBAnalog::blink(int delayTime, int times)
 {
     for (int i = 0; i < times; i++)
     {
